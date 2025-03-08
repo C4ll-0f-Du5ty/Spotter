@@ -84,11 +84,14 @@ WSGI_APPLICATION = 'triplog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'triplog',
-        'USER': 'postgres', 
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'neondb',  # Your Neon DB name
+        'USER': 'neondb_owner',  # Your Neon DB username
+        'PASSWORD': 'npg_aJ04IKciEqsT',  # Your Neon DB password
+        'HOST': 'ep-summer-voice-a51xz3sl-pooler.us-east-2.aws.neon.tech',  # Your Neon DB host
+        'PORT': '5432',  # PostgreSQL default port
+        # 'OPTIONS': {
+        #     'sslmode': 'require',  # Neon requires SSL
+        # },
     }
 }
 
