@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-&rl^(l3i4v*kni)s74&fp67156#t31)8!hagl8y!4!&mee6!mo
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "spotter-allem.koyeb.app",
-    "127.0.0.1",
-    "localhost"
+    # "spotter-allem.koyeb.app",
+    # "127.0.0.1",
+    # "localhost"
+    '*'
     ]
 
 
