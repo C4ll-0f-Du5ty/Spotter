@@ -2,10 +2,19 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import polyline from "@mapbox/polyline";
+import L from "leaflet";
 
 const ORS_API_KEY = "5b3ce3597851110001cf624842e5c4ecf7d04c2bbc5888499a2ea866";
 
 // Simple Note: the distance should not exceed 6000000.0 meters. as beyond that it will exceed the server configuration limits
+const customMarker = new L.Icon({
+    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png", // Use an online hosted marker
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+    shadowSize: [41, 41],
+});
 
 export default function TripMap({ trip }) {
     const [routeCoords, setRouteCoords] = useState([]);
@@ -126,21 +135,21 @@ export default function TripMap({ trip }) {
                     <Polyline positions={routeCoords} color="blue" weight={4} />
                 )}
 
-                {trip.current_lat && <Marker position={[trip?.current_lat, trip?.current_lon]}>
+                {trip.current_lat && <Marker position={[trip?.current_lat, trip?.current_lon]} icon={customMarker}>
                     <Popup>now: {trip?.current_location}</Popup>
                 </Marker>}
 
-                <Marker position={[trip?.start_lat, trip?.start_lon]}>
+                <Marker position={[trip?.start_lat, trip?.start_lon]} icon={customMarker}>
                     <Popup>Start: {trip?.start_location}</Popup>
                 </Marker>
 
                 {trip?.stops.map((stop, index) => (
-                    <Marker key={index} position={[stop?.lat, stop?.lon]}>
+                    <Marker key={index} position={[stop?.lat, stop?.lon]} icon={customMarker}>
                         <Popup>{stop?.location} ({stop?.stop_type})</Popup>
                     </Marker>
                 ))}
 
-                <Marker position={[trip?.end_lat, trip?.end_lon]}>
+                <Marker position={[trip?.end_lat, trip?.end_lon]} icon={customMarker}>
                     <Popup>End: {trip?.end_location}</Popup>
                 </Marker>
             </MapContainer>

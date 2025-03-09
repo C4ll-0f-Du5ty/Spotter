@@ -3,13 +3,43 @@ import { fetchTrips } from "../api/api";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+// Skeleton Loader Component
+const SkeletonCard = () => (
+    <motion.div
+        className="bg-gray-200 animate-pulse rounded-lg h-32 w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+    ></motion.div>
+);
+
 export default function TripList() {
     const { data: trips, isLoading, error } = useQuery({
         queryKey: ["trips"],
         queryFn: fetchTrips,
     });
 
-    if (isLoading) return <p className="text-center text-lg">Loading trips...</p>;
+    if (isLoading) {
+        return (
+            <div className="space-y-6 max-w-5xl mx-auto">
+                {/* Title Placeholder */}
+                <motion.h2
+                    className="text-2xl font-bold text-center text-gray-700 animate-pulse"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
+                >
+                    Fetching Trips...
+                </motion.h2>
+
+                {/* Loading Cards */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, index) => (
+                        <SkeletonCard key={index} />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     if (error) return <p className="text-center text-red-600">Error loading trips.</p>;
 
     // Group trips by driver name

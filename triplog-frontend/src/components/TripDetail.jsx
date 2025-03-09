@@ -3,8 +3,18 @@ import { useParams } from "react-router-dom";
 import { fetchTripDetails } from "../api/api";
 import TripMap from "./TripMap";
 import TripLog from "./TripLog";
-import ErrorBoundary from '../ErrorHandlers/ErrorBoundary'
-import { Trophy } from "lucide-react";
+import ErrorBoundary from '../ErrorHandlers/ErrorBoundary';
+import { motion } from "framer-motion";
+
+// Skeleton Loader Component
+const SkeletonLoader = () => (
+    <motion.div
+        className="bg-gray-200 animate-pulse rounded-lg h-32 w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+    ></motion.div>
+);
 
 export default function TripDetail() {
     const { id } = useParams();
@@ -13,10 +23,30 @@ export default function TripDetail() {
         queryFn: () => fetchTripDetails(id),
     });
 
-    if (isLoading) return <p className="loading-message">Loading trip details...</p>;
-    if (error) return <p className="error-message">Error loading trip details.</p>;
+    if (isLoading) {
+        return (
+            <div className="container mx-auto p-6 max-w-4xl">
+                {/* Title Placeholder */}
+                <motion.h2
+                    className="text-2xl font-bold text-center text-gray-700 animate-pulse"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                >
+                    Fetching Trip Details...
+                </motion.h2>
 
-    console.log(trip)
+                {/* Skeleton Loader for Map and Log Sections */}
+                <div className="space-y-6 mt-6">
+                    <SkeletonLoader /> {/* Simulating Map Section */}
+                    <SkeletonLoader /> {/* Simulating Log Sheet Section */}
+                </div>
+            </div>
+        );
+    }
+
+    if (error) return <p className="text-center text-red-600">Error loading trip details.</p>;
+
     return (
         <div className="container mx-auto p-6 max-w-4xl">
             {/* Header Section */}
@@ -43,9 +73,6 @@ export default function TripDetail() {
 
             {/* Log Sheet Section */}
             <section>
-                {/* <h2 className="text-xl font-semibold text-center mb-4 animate-fade-in-up">
-                    Log Sheet
-                </h2> */}
                 <div className="rounded-lg border bg-card">
                     <TripLog trip={trip} />
                 </div>
