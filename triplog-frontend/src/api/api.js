@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000"; // Change this if needed
+const BASE_URL = "https://skinny-dode-allem-79a4f1a4.koyeb.app/"; // Change this if needed
 
 export async function fetchTrips() {
     const res = await fetch(`${BASE_URL}/trips/`);
